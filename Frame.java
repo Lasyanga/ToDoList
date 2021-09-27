@@ -10,7 +10,11 @@ public class Frame extends JFrame{
 	}
 
 	private void initialized(){
-
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(new Dimension(400, 300));
+		this.setTitle("To do");
+		this.setVisible(true);
+		this.setLocationRelativeTo(null);
 	}
 
 }
