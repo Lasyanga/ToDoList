@@ -6,14 +6,16 @@ import javax.swing.border.Border;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import javax.swing.Timer;
 
 public class Frame extends JFrame implements MouseListener{
 	private JScrollPane scroll;
 	private JTextArea txt_area;
 	private JPanel panelTop, panel_ListCenter;
-	private JLabel menulbl, addtask, savelbl;
+	private JLabel menulbl, addtask, savelbl, tasklist;
 	private Timer tick;
 	private List<String> list = new ArrayList<String>();
+	
 
 	public Frame(){
 		initialized();
@@ -41,7 +43,7 @@ public class Frame extends JFrame implements MouseListener{
 		menulbl.setSize(new Dimension(100, 40));
 		menulbl.setForeground(Color.white);
 		menulbl.setHorizontalAlignment(JLabel.CENTER);
-		menulbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		//menulbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		menulbl.addMouseListener(this);
 		//menulbl.setBorder(border);		
 
@@ -53,8 +55,7 @@ public class Frame extends JFrame implements MouseListener{
 		addtask.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addtask.setHorizontalAlignment(JLabel.CENTER);
 		addtask.setToolTipText("Add new task");
-		addtask.addMouseListener(this);
-		//addtask.setBorder(border);
+		addtask.addMouseListener(this);		
 
 		panelTop.add(menulbl);
 		panelTop.add(addtask);
@@ -63,6 +64,12 @@ public class Frame extends JFrame implements MouseListener{
 		panel_ListCenter.setLayout(layout);
 		panel_ListCenter.setBorder(border);
 
+		tasklist = new JLabel();
+		tasklist.setForeground(Color.black);
+		tasklist.setOpaque(true);
+
+		
+		
 		txt_area = new JTextArea();
 		txt_area.setFont(new Font("Consolas", Font.PLAIN, 16));
 		txt_area.setForeground(Color.BLACK);
@@ -85,16 +92,13 @@ public class Frame extends JFrame implements MouseListener{
 		savelbl.addMouseListener(this);
 		savelbl.setVisible(false);
 
-		for(int i = 1; i < 10; i++){
-			panel_ListCenter.add(new JButton(i+"")); 
-		}
-
 		this.add(panelTop, BorderLayout.NORTH);		
 		this.add(panel_ListCenter, BorderLayout.CENTER);
 		this.add(savelbl, BorderLayout.SOUTH);
 
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
+
 	}
 
 	private void autoRun(){
@@ -104,43 +108,35 @@ public class Frame extends JFrame implements MouseListener{
 
 			}
 		});
+
+		tick.start();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e){
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e){
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e){
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e){
 		if(e.getSource() == savelbl){
 			if(!txt_area.getText().isEmpty()){
 				String task = txt_area.getText();
 				list.add(task);
 				System.out.println("Size: "+list.size());
-
 				ListIterator<String> listIterator = list.listIterator();
+				txt_area.setText("");
 
-				while(listIterator.hasNext()){
-					System.out.println(listIterator.next());
+				//Random rand = new Random();
+
+				if(list.size() > 0 ){
+						panel_ListCenter.removeAll();
 				}
 
-				txt_area.setText("");
+				while(listIterator.hasNext()){
+					panel_ListCenter.add(new JLabel(listIterator.next().trim()));					
+				}
 				
 				scroll.setVisible(false);
 				savelbl.setVisible(false);
 				addtask.setVisible(true);
 				menulbl.setText("Task List");
+				
 				panel_ListCenter.setVisible(true);
 			}
 		}
@@ -164,6 +160,34 @@ public class Frame extends JFrame implements MouseListener{
 				panel_ListCenter.setVisible(true);
 			}
 		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e){
+		if(e.getSource() == addtask){
+			addtask.setForeground(Color.green);
+		}
+
+		if(e.getSource() == menulbl){
+			addtask.setForeground(Color.green);
+		}
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e){
+		if(e.getSource() == addtask){
+			addtask.setForeground(Color.white);
+		}
+
+		if(e.getSource() == menulbl){
+			addtask.setForeground(Color.white);
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e){
+		
 	}
 
 	@Override
