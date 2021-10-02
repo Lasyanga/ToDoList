@@ -2,11 +2,9 @@ package Todo;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*; 
-import javax.swing.border.Border;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import javax.swing.Timer;
 
 public class Frame extends JFrame implements MouseListener{
 	private JScrollPane scroll;
@@ -43,9 +41,8 @@ public class Frame extends JFrame implements MouseListener{
 		menulbl.setSize(new Dimension(100, 40));
 		menulbl.setForeground(Color.white);
 		menulbl.setHorizontalAlignment(JLabel.CENTER);
-		//menulbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		menulbl.addMouseListener(this);
-		//menulbl.setBorder(border);		
+		
 
 		addtask = new JLabel("+");
 		addtask.setLocation(new Point(240, 0));
@@ -66,9 +63,7 @@ public class Frame extends JFrame implements MouseListener{
 
 		tasklist = new JLabel();
 		tasklist.setForeground(Color.black);
-		tasklist.setOpaque(true);
-
-		
+		tasklist.setOpaque(true);		
 		
 		txt_area = new JTextArea();
 		txt_area.setFont(new Font("Consolas", Font.PLAIN, 16));
@@ -101,17 +96,6 @@ public class Frame extends JFrame implements MouseListener{
 
 	}
 
-	private void autoRun(){
-		tick = new Timer(500, new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-
-			}
-		});
-
-		tick.start();
-	}
-
 	@Override
 	public void mouseClicked(MouseEvent e){
 		if(e.getSource() == savelbl){
@@ -122,10 +106,8 @@ public class Frame extends JFrame implements MouseListener{
 				ListIterator<String> listIterator = list.listIterator();
 				txt_area.setText("");
 
-				//Random rand = new Random();
-
 				if(list.size() > 0 ){
-						panel_ListCenter.removeAll();
+					panel_ListCenter.removeAll();
 				}
 
 				while(listIterator.hasNext()){
